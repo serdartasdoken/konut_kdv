@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konut KDV Hesaplama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Konut teslimlerinde KDV oranı hesaplama uygulaması.">
+</head>
+<body>
+
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="app-header">
+            <h1>Konut KDV Hesaplama</h1>
+            <p>Konut teslimlerinde güncel KDV oranını kolayca öğrenin.</p>
+        </header>
+
+        <main class="card glass">
+            <form id="kdvForm">
+                <!-- Step 1: Ruhsat Tarihi -->
+                <div class="form-group" id="step1">
+                    <label for="ruhsatTarihi">1. Yapı ruhsatı hangi tarihte alındı?</label>
+                    <div class="select-wrapper">
+                        <select id="ruhsatTarihi" name="ruhsatTarihi" required>
+                            <option value="" disabled selected>Bir tarih aralığı seçin</option>
+                            <option value="A">31/12/2012 ve öncesi</option>
+                            <option value="B">01/01/2013 - 31/12/2016 arası</option>
+                            <option value="C">01/01/2017 - 31/03/2022 arası</option>
+                            <option value="D">01/04/2022 ve sonrası</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Net Alan -->
+                <div class="form-group hidden" id="step2">
+                    <label for="netAlan">2. Konutun net alanı kaç m²?</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="netAlan" name="netAlan" placeholder="Örn: 120" min="0" step="0.01">
+                        <span class="unit">m²</span>
+                    </div>
+                </div>
+
+                <!-- Step 3: Conditional Questions -->
+                <div id="dynamicQuestions">
+                    <!-- Durum Sorusu (2013-2022) -->
+                    <div class="form-group hidden" id="step_durum">
+                        <label for="konutDurumu">3. Konutun durumu nedir?</label>
+                        <div class="select-wrapper">
+                            <select id="konutDurumu" name="konutDurumu">
+                                <option value="" disabled selected>Durum seçin</option>
+                                <option value="1">Büyükşehir belediyesi sınırları dışında</option>
+                                <option value="2">Büyükşehirde (Kentsel Dönüşüm / 6306 SK)</option>
+                                <option value="3">Büyükşehirde ve Lüks/1. Sınıf İnşaat</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Arsa Değeri (2013-2022 Lüks) -->
+                    <div class="form-group hidden" id="step_arsa">
+                        <label for="arsaDegeri">Arsa birim m² vergi değeri nedir?</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="arsaDegeri" name="arsaDegeri" placeholder="Örn: 750" min="0" step="0.01">
+                            <span class="unit">TL</span>
+                        </div>
+                    </div>
+
+                    <!-- Dönüşüm Sorusu (2022 Sonrası) -->
+                    <div class="form-group hidden" id="step_donusum">
+                        <label for="kentselDonusum">3. Konut 6306 sayılı kanun kapsamında (Kentsel Dönüşüm) mı?</label>
+                        <div class="select-wrapper">
+                            <select id="kentselDonusum" name="kentselDonusum">
+                                <option value="" disabled selected>Seçim yapın</option>
+                                <option value="E">Evet</option>
+                                <option value="H">Hayır</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="form-actions hidden" id="actionArea">
+                    <button type="button" id="calculateBtn" class="btn-primary">
+                        Hesapla
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+
+            </form>
+
+            <div id="resultArea" class="result-card hidden">
+                <h2>Sonuç</h2>
+                <div id="resultText" class="result-text"></div>
+                <button id="resetBtn" class="btn-secondary">Yeni Hesaplama</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Güncel mevzuat baz alınarak hazırlanmıştır.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
